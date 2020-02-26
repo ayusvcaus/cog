@@ -1,0 +1,59 @@
+1. Database
+1) Table User : authentication use
+a) username: string
+b) password: string
+c) primary key: username
+
+2) Table Something: store records
+a) id: int autoincrement
+b) name: string
+c) primary key: id
+
+2. REST API
+1) AuthController
+a) url: /exercise/v1/auth
+b) headers: Content-Type:application/json, username, password
+c) method: POST
+d) function: login and create token
+e) body: empty
+f) reponse: {"message":"Token generated","data":null,"token":"xxx.xxx.xxx"}
+g) http code: 201, 403, 500
+
+2) SomethingController
+a) url: /exercise/v1/something
+b) headers: Content-Type:application/json, Authorization:Bearer token, username, password(not required when token is available and token is always checked at first)
+c) methods:
+i) POST
+i.a) function: read or create record(s)
+i.b) body:
+-- empty ==> read all records
+-- {"id":1} ==> read the record with id
+-- {"name":"John"} ==> create a new record with name=John
+i.c) response: {"message":"Reading all records are successful.","data":[{"id":1,"name":"John Smith"},{"id":2,"name":"William"},{"id":6,"name":"Hellen"}],"token":"xxx.xxx.xxx"}
+i.d) http code: 200, 201, 400, 403, 500
+
+ii) PUT
+ii.a) function: update the name in the record with id
+ii.b) body: {"id":1, "name":"Henry"}
+ii.c) response: {"message":"The record with id=1 and name=Henry has been updated","data":null,"token":"xxx.xxx.xxx"}
+ii.d) http code: 200, 400, 403, 500
+
+ii) DELETE
+ii.a) function: remove the record with id
+ii.b) body: {"id":1}
+ii.c) response: {"message":"The record with id=1 has been removed","data":null,"token":"xxx.xxx.xxx"}
+ii.d) http code: 200, 400, 403, 500
+
+Note: the valid token is always in response for client's convenience.
+
+3. Token
+1) make use of JSON Web Token (JWT) in Auth0
+2) secret key and expiration time length defined in properties file
+
+4. The supportive services
+1) SomethingService
+2) UserService
+
+5. Persistence
+1) data access layer (Dao)
+2) make use of hibernate
