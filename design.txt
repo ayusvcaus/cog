@@ -57,3 +57,5 @@ Note: the valid token is always in response for client's convenience.
 5. Persistence
 1) data access layer (Dao)
 2) make use of hibernate
+
+--end
